@@ -12,7 +12,7 @@
                         <h4 class="text-center">Login</h4>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="login">
                             @csrf
 
                             <div class="form-group">
@@ -42,55 +42,83 @@
 
 <script>
     $(document).ready(function(){
-        // console.log("enter");
-        $('#login_btn').click(function(e){
-            // console.log("enter");
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-
+        var loginForm = $('#login');
+        loginForm.submit(function(e){
             e.preventDefault();
-            var email = $(#email).val();
-            var password = $(#password).val();
+
+            var formData = loginForm.serialize();
 
             $.ajax({
-                // console.log("enter");
-                url: '/user_login',
+                url: ('/user_login'),
                 type: 'POST',
-
-                data:{
-                    email:email,
-                    password:password
-                },
-
+                data:formData,
                 success:function(data){
-                    if($.isEmptyObject(data.error)){
-                        if(data.success){
-                            $('#notifDiv').fadeIn();
-                            $('#notifDiv').css('background','green');
-                            $('#notifDiv').text('User Successfully Login');
-                            setTimeout(() => {
-                                $('#notfiDiv').fadeout();
-                            }, 3000);
-                            window.location = "{{ route('home') }}"
-                        }
-                    } else{
-                        $('#notifDiv').fadeIn();
-                        $('#notifDiv').css('background','red');
-                        $('#notifDiv').text('An error occured. Please try again later');
-
-                        setTimeout(()=>{
-                            $('#notifDiv').fadeOut();
-                        }, 3000);
-                    }
+                    console.log(data);
+                },
+                error:function (data){
+                    console.log(data);
                 }
             });
-
-            // console.log('hi');
         });
+
+        alert("Success");
+
+
+
+
+
+
+
+        // $('#login_btn').click(function(e){
+
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
+
+
+        //     // e.preventDefault();
+        //     var email = $('#email').val();
+        //     var password = $('#password').val();
+
+        //     $.ajax({
+        //         // console.log("enter");
+        //         url: '/user_login',
+        //         type: 'POST',
+        //         // dataType: 'JSON',
+
+        //         data:{
+        //             email: $('#email').val(),
+        //             password: $('#password').val(),
+        //             // _token: '{{csrf_token()}}'
+        //         },
+
+        //         success:function(data1){
+        //             if($.isEmptyObject(data1.error)){
+        //                 if(data1.success){
+        //                     $('#notifDiv').fadeIn();
+        //                     $('#notifDiv').css('background','green');
+        //                     $('#notifDiv').text('User Successfully Login');
+        //                     setTimeout(() => {
+        //                         $('#notfiDiv').fadeout();
+        //                     }, 3000);
+        //                     window.location = "{{ route('home') }}"
+        //                 }
+        //             } else{
+        //                 $('#notifDiv').fadeIn();
+        //                 $('#notifDiv').css('background','red');
+        //                 $('#notifDiv').text('An error occured. Please try again later');
+
+        //                 setTimeout(()=>{
+        //                     $('#notifDiv').fadeOut();
+        //                 }, 3000);
+        //             }
+        //         }
+        //     });
+
+        //     // console.log('hi');
+        // });
     });
 
 </script>
